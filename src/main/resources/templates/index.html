@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Soda Tacker!</title>
+    <style>
+        body {
+            font-family: 'Avenir', Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        table {
+            width: 400px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        th,td {
+            border: 1px solid #ddd !important;
+        }
+
+        #nav a {
+        font-weight: bold;
+        color: #2c3e50;
+        }
+
+        #nav a.router-link-exact-active {
+        color: #42b983;
+        }
+    </style>
+</head>
+<body>
+<h1>Soda Tracker!</h1>
+<form action="/soda" method="post">
+    <label>Push Count: </label>
+    <button id="minusCount">-</button>
+    <span id="temp_pushCount">3</span>
+    <button id="addCount">+</button>
+
+    <input type="hidden" name="pushCount" value="3" id="pushCount">
+
+    <br>
+    <label>Build Time: </label>
+    <input type="datetime-local" name="temp_buildAt" id="temp_buildAt">
+    <input type="hidden" name="buildAt" id="buildAt">
+    <button type="submit">save</button>
+</form>
+
+<h2>Build Log</h2>
+<div style="margin-bottom: 20px">
+    <span>Total count: </span> <span th:text="${totalPushCount}"></span>
+</div>
+<table>
+    <thead>
+    <tr>
+        <th>Count</th>
+        <th>Build At</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="item: ${page}">
+        <td th:text="${item.pushCount}"></td>
+        <td th:text='${item.buildAt.toString().replace("T", " ").substring(0, 16)}'></td>
+    </tr>
+    </tbody>
+</table>
+
+
+<script>
+    let pushCount = 3;
+
+    window.onload = function() {
+        let date = new Date(); // Or the date you'd like converted.
+        let isoDate = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString();
+        let now = isoDate.substr(0, 16);
+
+        let tempBuildAt = document.getElementById("temp_buildAt");
+        let buildAtDom = document.getElementById("buildAt");
+        let addCountAtDom = document.getElementById("addCount");
+        let minusCountAtDom = document.getElementById("minusCount");
+
+        addCountAtDom.addEventListener("click", function (e) {
+            addCount(e);
+        });
+
+        minusCountAtDom.addEventListener("click", function (e) {
+            minusCount(e);
+        });
+
+        tempBuildAt.addEventListener("focusout", updateBuildAt)
+        tempBuildAt.value = now;
+        buildAtDom.value = now + ':00z';
+
+
+    }
+
+    function updateBuildAt() {
+        let tempBuildAtDom = document.getElementById("temp_buildAt");
+        let buildAtDom = document.getElementById("buildAt");
+        let tempBuildAt = tempBuildAtDom.value;
+        buildAtDom.value = tempBuildAt + ':00Z';
+    }
+
+    function addCount(event) {
+        event.preventDefault();
+
+        pushCount += 1;
+        updatePushCount();
+    }
+
+    function minusCount(event) {
+        event.preventDefault();
+
+        pushCount -= 1;
+        updatePushCount();
+    }
+
+    function updatePushCount() {
+        document.getElementById("temp_pushCount").innerHTML = pushCount;
+        document.getElementById("pushCount").value = pushCount;
+    }
+</script>
+</body>
+</html>
