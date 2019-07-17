@@ -25,7 +25,7 @@ public class AppController {
             @RequestParam(value = "offset", defaultValue = "0") int offset,
             @RequestParam(value = "size", defaultValue = "20") int size
     ) {
-        Sort sort = new Sort(Sort.Direction.DESC, "createdAt");
+        Sort sort = new Sort(Sort.Direction.DESC, "buildAt");
         Page<SodaLogDTO.LIST> sodaLogPage = sodaLogService.findAll(PageRequest.of(offset, size, sort));
 
         model.addAttribute("page", sodaLogPage);
