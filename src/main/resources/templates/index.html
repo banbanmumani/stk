@@ -2,6 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Soda Tacker!</title>
     <style>
         body {
@@ -14,7 +15,6 @@
 
         table {
             width: 400px;
-            display: block;
             margin-left: auto;
             margin-right: auto;
         }
@@ -23,13 +23,32 @@
             border: 1px solid #ddd !important;
         }
 
-        #nav a {
-        font-weight: bold;
-        color: #2c3e50;
+        form {
+            width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-bottom: 20px;
+        }
+        form>label{
+            float: left;
+            width: 100px;
+            padding-left: 20px;
+            text-align: left;
         }
 
-        #nav a.router-link-exact-active {
-        color: #42b983;
+        form>.input_group{
+            float: left;
+            padding-left: 30px;
+
+        }
+
+        h2{
+            text-align: center;
+        }
+
+        .btn{
+            width: 80px;
+            background: border-box;
         }
     </style>
 </head>
@@ -37,17 +56,27 @@
 <h1>Soda Tracker!</h1>
 <form th:action="@{/soda}" method="post">
     <label>Push Count: </label>
-    <button id="minusCount">-</button>
-    <span id="temp_pushCount">3</span>
-    <button id="addCount">+</button>
+    <div class="input_group">
+        <button id="minusCount">-</button>
+        <span id="temp_pushCount">3</span>
+        <button id="addCount">+</button>
+        <input type="hidden" name="pushCount" value="3" id="pushCount">
+    </div>
 
-    <input type="hidden" name="pushCount" value="3" id="pushCount">
 
     <br>
+    <br>
     <label>Build Time: </label>
-    <input type="datetime-local" name="temp_buildAt" id="temp_buildAt">
-    <input type="hidden" name="buildAt" id="buildAt">
-    <button type="submit">save</button>
+    <div class="input_group">
+        <input type="datetime-local" name="temp_buildAt" id="temp_buildAt">
+        <input type="hidden" name="buildAt" id="buildAt">
+    </div>
+
+    <br>
+    <br>
+    <div>
+        <button type="submit" class="btn">save</button>
+    </div>
 </form>
 
 <h2>Build Log</h2>
