@@ -54,7 +54,7 @@
 </head>
 <body>
 <h1>Soda Tracker!</h1>
-<form th:action="@{/soda}" method="post">
+<form th:action="@{/soda}" method="post" id="form">
     <label>Push Count: </label>
     <div class="input_group">
         <button id="minusCount">-</button>
@@ -75,7 +75,7 @@
     <br>
     <br>
     <div>
-        <button type="submit" class="btn">save</button>
+        <button type="submit" id="submit" class="btn">save</button>
     </div>
 </form>
 
@@ -112,6 +112,14 @@
         let buildAtDom = document.getElementById("buildAt");
         let addCountAtDom = document.getElementById("addCount");
         let minusCountAtDom = document.getElementById("minusCount");
+        let submitDom = document.getElementById("submit");
+        let formDom = document.getElementById("form");
+
+        submitDom.addEventListener("click", function (e) {
+            e.preventDefault();
+            updatePushCount();
+            formDom.submit();
+        })
 
         addCountAtDom.addEventListener("click", function (e) {
             addCount(e);
@@ -152,6 +160,10 @@
     function updatePushCount() {
         document.getElementById("temp_pushCount").innerHTML = pushCount;
         document.getElementById("pushCount").value = pushCount;
+    }
+
+    function submit(event) {
+
     }
 </script>
 </body>
