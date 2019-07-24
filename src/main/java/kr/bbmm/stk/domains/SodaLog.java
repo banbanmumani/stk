@@ -13,6 +13,7 @@ public class SodaLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
     private Long id;
 
     @Column(name = "PUSH_COUNT")
@@ -23,6 +24,13 @@ public class SodaLog {
 
     @Column(name = "CREATED_AT")
     private Instant createdAt;
+
+    @ManyToOne
+    @JoinTable(name = "CYLINDER_LOG_MAP_TBL",
+            joinColumns = @JoinColumn(name = "LOG_ID", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "CYLINDER_ID", referencedColumnName = "ID")
+    )
+    private Cylinder cylinder;
 
     @PrePersist
     public void prePersist() {
