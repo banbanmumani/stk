@@ -55,10 +55,25 @@
             font-weight: bold;
             color: red;
         }
+
+        nav {
+            width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-bottom: 20px;
+        }
+
+        nav>a{
+            float: right;
+            font-size: 0.8em;
+            padding-right: 50px;
+            color: #578484;
+        }
     </style>
 </head>
 <body>
 <h1>Soda Tracker!</h1>
+<nav><a th:href="@{/}">/home</a></nav>
 <form th:action="@{/soda}" method="post" id="form" name="form">
     <label>Push Count: </label>
     <div class="input_group">
