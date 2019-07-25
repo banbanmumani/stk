@@ -50,6 +50,11 @@
             width: 80px;
             background: border-box;
         }
+
+        .emp {
+            font-weight: bold;
+            color: red;
+        }
     </style>
 </head>
 <body>
@@ -79,25 +84,47 @@
     </div>
 </form>
 
-<h2>Build Log</h2>
-<div style="margin-bottom: 20px">
-    <span>Total count: </span> <span th:text="${totalPushCount}"></span>
-</div>
-<table>
-    <thead>
-    <tr>
-        <th>Count</th>
-        <th>Build At</th>
-    </tr>
-    </thead>
+<h2>Cylinder info</h2>
 
-    <tbody>
-    <tr th:each="item: ${page}">
-        <td th:text="${item.pushCount}"></td>
-        <td th:text='${item.buildAt.toString().replace("T", " ").substring(0, 16)}'></td>
-    </tr>
-    </tbody>
-</table>
+<div>
+    <span>Total push count </span><span class="emp" th:text="${cylinderInfo.getTotalCount()}"></span>
+</div>
+<div>
+    <span>drink </span><span class="emp" th:text="${cylinderInfo.getDrinkPerDay()}"></span><span> liter per day</span>
+</div>
+<div>
+    <span>Using </span><span class="emp" th:text="${cylinderInfo.getPeriod()}"></span><span> days</span>
+</div>
+<!--<div>-->
+<!--    <button>detail view</button>-->
+<!--</div>-->
+<!--<div>-->
+<!--    <button>Gas is Exhausted</button>-->
+<!--</div>-->
+<!--<br>-->
+<!--<div>-->
+<!--    <button>Old Cylinder list</button>-->
+<!--</div>-->
+
+<!--<h2>Build Log</h2>-->
+<!--<div style="margin-bottom: 20px">-->
+<!--    <span>Total count: </span> <span th:text="${totalPushCount}"></span>-->
+<!--</div>-->
+<!--<table>-->
+<!--    <thead>-->
+<!--    <tr>-->
+<!--        <th>Count</th>-->
+<!--        <th>Build At</th>-->
+<!--    </tr>-->
+<!--    </thead>-->
+
+<!--    <tbody>-->
+<!--    <tr th:each="item: ${page}">-->
+<!--        <td th:text="${item.pushCount}"></td>-->
+<!--        <td th:text='${item.buildAt.toString().replace("T", " ").substring(0, 16)}'></td>-->
+<!--    </tr>-->
+<!--    </tbody>-->
+<!--</table>-->
 
 
 <script>

@@ -1,5 +1,6 @@
 package kr.bbmm.stk.domains.service;
 
+import kr.bbmm.stk.domains.CylinderDTO;
 import kr.bbmm.stk.domains.SodaLog;
 import kr.bbmm.stk.domains.SodaLogDTO;
 import org.springframework.data.domain.Page;
@@ -11,4 +12,6 @@ public interface SodaLogService {
     SodaLog save(SodaLog toSodaLog);
 
     void delete(Long id);
+
+    CylinderDTO.ONE findActivateCylinderInfo();
 }

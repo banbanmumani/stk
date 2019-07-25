@@ -1,11 +1,8 @@
 package kr.bbmm.stk.controllers;
 
-import kr.bbmm.stk.domains.SodaLog;
+import kr.bbmm.stk.domains.CylinderDTO;
 import kr.bbmm.stk.domains.SodaLogDTO;
 import kr.bbmm.stk.domains.service.SodaLogService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,16 +17,10 @@ public class AppController {
     }
 
     @GetMapping(value = "/")
-    public String index(
-            Model model,
-            @RequestParam(value = "offset", defaultValue = "0") int offset,
-            @RequestParam(value = "size", defaultValue = "20") int size
-    ) {
-        Sort sort = new Sort(Sort.Direction.DESC, "buildAt");
-        Page<SodaLogDTO.LIST> sodaLogPage = sodaLogService.findAll(PageRequest.of(offset, size, sort));
+    public String index(Model model) {
+        CylinderDTO.ONE cylinderInfo = sodaLogService.findActivateCylinderInfo();
 
-        model.addAttribute("page", sodaLogPage);
-        model.addAttribute("totalPushCount", sodaLogPage.get().mapToInt(i -> i.getPushCount()).sum());
+        model.addAttribute("cylinderInfo", cylinderInfo);
 
         return "index";
     }
