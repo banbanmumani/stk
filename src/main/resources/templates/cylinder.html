@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Soda Tacker!</title>
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body>
+<a th:href="@{/}"><h1>Soda Tracker!</h1></a>
+<nav>
+    <a th:href="@{/}">/home</a>
+    <a th:href="@{'/cylinder'}" class="last_nav" th:text="${'/cylinder'}"></a>
+</nav>
+
+<a th:href="@{/cylinder}"><h2>Cylinder Log</h2></a>
+<table>
+    <thead>
+    <tr>
+        <th>Total Count</th>
+        <th>Period</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="item: ${cylinderList}">
+        <td>
+            <a th:href="@{'/cylinder/' + ${item.getId()}}" th:text="${item.getTotalCount()}"></a>
+        </td>
+        <td>
+            <a th:href="@{'/cylinder/' + ${item.getId()}}" th:text='${item.getStartDate().toString().substring(0, 10) + " ~ " + item.getEndDate().toString().substring(0, 10) + " (" + item.getPeriod() + " days)"}'></a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+
+</body>
+</html>

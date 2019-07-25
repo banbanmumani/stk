@@ -10,11 +10,14 @@ import kr.bbmm.stk.helper.Mapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class SodaLogServiceImpl implements SodaLogService {
@@ -69,6 +72,27 @@ public class SodaLogServiceImpl implements SodaLogService {
             cylinder.setExhausted(true);
             cylinderRepository.save(cylinder);
         }
+    }
+
+    @Override
+    public Cylinder findCylinderInfoById(Long id) {
+        Optional<Cylinder> cylinder = cylinderRepository.findById(id);
+        if (cylinder.isPresent()) {
+            return cylinder.get();
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public List<CylinderDTO.ONE> findCylinderList() {
+        return cylinderRepository.findAll(new Sort(Sort.Direction.DESC, "id"))
+                .stream()
+                .map(cylinder -> {
+                    CylinderDTO.ONE one = Mapper.map(cylinder);
+                    return one;
+                })
+                .collect(Collectors.toList());
     }
 
     @Transactional

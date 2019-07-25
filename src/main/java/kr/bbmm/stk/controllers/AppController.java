@@ -48,4 +48,16 @@ public class AppController {
         sodaLogService.exhaustCylinder(id);
         return "redirect:/";
     }
+
+    @GetMapping(value = "/cylinder")
+    public String cylinderList(Model model) {
+        model.addAttribute("cylinderList", sodaLogService.findCylinderList());
+        return "cylinder";
+    }
+
+    @GetMapping(value = "/cylinder/{id}")
+    public String detail(@PathVariable(value = "id") Long id, Model model) {
+        model.addAttribute("cylinderInfo", sodaLogService.findCylinderInfoById(id));
+        return "detail";
+    }
 }

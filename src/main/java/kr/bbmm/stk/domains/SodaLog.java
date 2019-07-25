@@ -1,5 +1,6 @@
 package kr.bbmm.stk.domains;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -25,6 +26,7 @@ public class SodaLog {
     @Column(name = "CREATED_AT")
     private Instant createdAt;
 
+    @JsonIgnore
     @ManyToOne
     @JoinTable(name = "CYLINDER_LOG_MAP_TBL",
             joinColumns = @JoinColumn(name = "LOG_ID", referencedColumnName = "ID"),

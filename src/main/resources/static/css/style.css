@@ -1,0 +1,79 @@
+body {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+}
+
+table {
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+th,td {
+    border: 1px solid #ddd !important;
+}
+
+table td{
+    font-size: 0.8em;
+}
+
+form {
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 20px;
+}
+form>label{
+    float: left;
+    width: 100px;
+    padding-left: 20px;
+    text-align: left;
+}
+
+form>.input_group{
+    float: left;
+    padding-left: 30px;
+
+}
+
+h2{
+    text-align: center;
+}
+
+.btn{
+    width: 100px;
+    background: border-box;
+}
+
+.emp {
+    font-weight: bold;
+    color: red;
+}
+
+nav {
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 20px;
+    text-align: right;
+}
+
+nav>a{
+    font-size: 0.8em;
+    color: #578484;
+}
+
+nav>.last_nav{
+    padding-right: 50px;
+}
+
+.danger{
+    background-color: #f44336;
+}
+
+a{
+    color: cornflowerblue;
+}

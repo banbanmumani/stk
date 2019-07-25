@@ -4,76 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Soda Tacker!</title>
-    <style>
-        body {
-            font-family: 'Avenir', Helvetica, Arial, sans-serif;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            text-align: center;
-            color: #2c3e50;
-        }
-
-        table {
-            width: 400px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        th,td {
-            border: 1px solid #ddd !important;
-        }
-
-        form {
-            width: 400px;
-            margin-left: auto;
-            margin-right: auto;
-            padding-bottom: 20px;
-        }
-        form>label{
-            float: left;
-            width: 100px;
-            padding-left: 20px;
-            text-align: left;
-        }
-
-        form>.input_group{
-            float: left;
-            padding-left: 30px;
-
-        }
-
-        h2{
-            text-align: center;
-        }
-
-        .btn{
-            width: 80px;
-            background: border-box;
-        }
-
-        .emp {
-            font-weight: bold;
-            color: red;
-        }
-
-        nav {
-            width: 400px;
-            margin-left: auto;
-            margin-right: auto;
-            padding-bottom: 20px;
-        }
-
-        nav>a{
-            float: right;
-            font-size: 0.8em;
-            padding-right: 50px;
-            color: #578484;
-        }
-    </style>
+    <link th:href="@{/css/style.css}" rel="stylesheet">
 </head>
 <body>
-<h1>Soda Tracker!</h1>
-<nav><a th:href="@{/}">/home</a></nav>
+<a th:href="@{/}"><h1>Soda Tracker!</h1></a>
+<nav><a th:href="@{/}" class="last_nav">/home</a></nav>
 <form th:action="@{/soda}" method="post" id="form" name="form">
     <label>Push Count: </label>
     <div class="input_group">
@@ -99,118 +34,29 @@
     </div>
 </form>
 
-<h2>Cylinder info</h2>
+<a th:href="@{'/cylinder/' + ${cylinderInfo.getId()}}"><h2>Cylinder info</h2></a>
 
 <div>
     <span>Total push count </span><span class="emp" th:text="${cylinderInfo.getTotalCount()}"></span>
 </div>
 <div>
-    <span>drink </span><span class="emp" th:text="${cylinderInfo.getDrinkPerDay()}"></span><span> liter per day</span>
+    <span>Drink </span><span class="emp" th:text="${cylinderInfo.getDrinkPerDay()}"></span><span> liter per day</span>
 </div>
 <div>
     <span>Using </span><span class="emp" th:text="${cylinderInfo.getPeriod()}"></span><span> days</span>
 </div>
-<!--<div>-->
-<!--    <button>detail view</button>-->
-<!--</div>-->
 <div>
-    <button onclick="exhaustGas()">Gas is Exhausted</button>
+    <a th:href="@{'/cylinder/' + ${cylinderInfo.getId()}}"><button class="btn">Detail</button></a>
+</div>
+<div>
+    <button onclick="exhaustGas()" class="danger btn">Gas Exhausted</button>
     <input type="hidden" th:value="@{'/exhaust/' + ${cylinderInfo.getId()}}" id="exhaustPath">
 </div>
-<!--<br>-->
-<!--<div>-->
-<!--    <button>Old Cylinder list</button>-->
-<!--</div>-->
+<br>
+<div>
+    <a th:href="@{/cylinder}"><button class="btn">Cylinder list</button></a>
+</div>
 
-<!--<h2>Build Log</h2>-->
-<!--<div style="margin-bottom: 20px">-->
-<!--    <span>Total count: </span> <span th:text="${totalPushCount}"></span>-->
-<!--</div>-->
-<!--<table>-->
-<!--    <thead>-->
-<!--    <tr>-->
-<!--        <th>Count</th>-->
-<!--        <th>Build At</th>-->
-<!--    </tr>-->
-<!--    </thead>-->
-
-<!--    <tbody>-->
-<!--    <tr th:each="item: ${page}">-->
-<!--        <td th:text="${item.pushCount}"></td>-->
-<!--        <td th:text='${item.buildAt.toString().replace("T", " ").substring(0, 16)}'></td>-->
-<!--    </tr>-->
-<!--    </tbody>-->
-<!--</table>-->
-
-
-<script>
-    let pushCount = 3;
-
-    window.onload = function() {
-        let date = new Date(); // Or the date you'd like converted.
-        let isoDate = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString();
-        let now = isoDate.substr(0, 16);
-
-        let tempBuildAt = document.getElementById("temp_buildAt");
-        let buildAtDom = document.getElementById("buildAt");
-        let addCountAtDom = document.getElementById("addCount");
-        let minusCountAtDom = document.getElementById("minusCount");
-        let submitDom = document.getElementById("submit_btn");
-        let formDom = document.getElementById("form");
-
-        submitDom.addEventListener("click", function (e) {
-            e.preventDefault();
-            updatePushCount();
-            formDom.submit();
-        })
-
-        addCountAtDom.addEventListener("click", function (e) {
-            addCount(e);
-        });
-
-        minusCountAtDom.addEventListener("click", function (e) {
-            minusCount(e);
-        });
-
-        tempBuildAt.addEventListener("focusout", updateBuildAt)
-        tempBuildAt.value = now;
-        buildAtDom.value = now + ':00z';
-
-
-    }
-
-    function updateBuildAt() {
-        let tempBuildAtDom = document.getElementById("temp_buildAt");
-        let buildAtDom = document.getElementById("buildAt");
-        let tempBuildAt = tempBuildAtDom.value;
-        buildAtDom.value = tempBuildAt + ':00Z';
-    }
-
-    function addCount(event) {
-        event.preventDefault();
-
-        pushCount += 1;
-        updatePushCount();
-    }
-
-    function minusCount(event) {
-        event.preventDefault();
-
-        pushCount -= 1;
-        updatePushCount();
-    }
-
-    function updatePushCount() {
-        document.getElementById("temp_pushCount").innerHTML = pushCount;
-        document.getElementById("pushCount").value = pushCount;
-    }
-
-    function exhaustGas() {
-        let answer = confirm("Are you sure?");
-        if (answer) {
-            location.href = document.getElementById("exhaustPath").value
-        }
-    }
-</script>
+<script th:src="@{/js/index.js}"></script>
 </body>
 </html>

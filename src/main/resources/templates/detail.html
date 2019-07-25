@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Soda Tacker!</title>
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body>
+<a th:href="@{/}"><h1>Soda Tracker!</h1></a>
+<nav>
+    <a th:href="@{/}">/home</a>
+    <a th:href="@{'/cylinder'}" th:text="${'/cylinder'}"></a>
+    <a th:href="@{'/cylinder/' + ${cylinderInfo.getId()}}" class="last_nav" th:text="${'/' + cylinderInfo.getId()}"></a>
+</nav>
+
+<a th:href="@{'/cylinder/' + ${cylinderInfo.getId()}}"><h2>Cylinder info</h2></a>
+
+<div>
+    <span>Total push count </span><span class="emp" th:text="${cylinderInfo.getTotalCount()}"></span>
+</div>
+<br>
+
+<div>
+    <span>Drink </span><span class="emp" th:text="${cylinderInfo.getDrinkPerDay()}"></span><span> liter per day</span>
+</div>
+<br>
+
+<div>
+    <span>Using </span><span class="emp" th:text="${cylinderInfo.getPeriod()}"></span><span> days</span>
+    <br>
+    <span th:text="${cylinderInfo.getStartDate().toString().substring(0, 10)}"></span> ~ <span th:text="${cylinderInfo.getEndDate().toString().substring(0, 10)}"></span>
+</div>
+
+<h2>Build Log</h2>
+<div style="margin-bottom: 20px">
+    <span>Total count: </span> <span th:text="${cylinderInfo.getTotalCount()}"></span>
+</div>
+<table>
+    <thead>
+    <tr>
+        <th>Count</th>
+        <th>Build At</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="item: ${cylinderInfo.getSodaLogList()}">
+        <td th:text="${item.pushCount}"></td>
+        <td th:text='${item.buildAt.toString().replace("T", " ").substring(0, 16)}'></td>
+    </tr>
+    </tbody>
+</table>
+
+
+</body>
+</html>

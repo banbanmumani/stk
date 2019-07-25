@@ -17,4 +17,8 @@ public class CylinderDTO {
         private Instant startDate;
         private Instant endDate;
     }
+
+    @Data
+    public static class LIST {
+    }
 }
