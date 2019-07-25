@@ -35,5 +35,6 @@ public class SodaLog {
     @PrePersist
     public void prePersist() {
         this.createdAt = Instant.now(Clock.systemDefaultZone());
+        this.cylinder.setEndDate(this.buildAt);
     }
 }

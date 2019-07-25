@@ -38,23 +38,12 @@ public class SodaLogServiceImpl implements SodaLogService {
     public SodaLog save(SodaLog toSodaLog) {
         Cylinder cylinder = findActivateCylinder();
 
-        int cylinderTotalPushCount = sodaLogRepository.getTotalPushCount(cylinder.getId()) + toSodaLog.getPushCount();
-        int period = (int) Math.ceil((double) cylinder.getStartDate().until(toSodaLog.getBuildAt(), ChronoUnit.HOURS) / 24d);
-        int totalBuildCount = sodaLogRepository.getTotalBuildCount(cylinder.getId()) + 1;
-        int drinkPerDay = totalBuildCount / period;
-        int pushAvg = cylinderTotalPushCount / totalBuildCount;
-
-        cylinder.setTotalCount(cylinderTotalPushCount);
-        cylinder.setPeriod(period);
-        cylinder.setDrinkPerDay(drinkPerDay);
-        cylinder.setPushAvg(pushAvg);
-
-
         toSodaLog.setCylinder(cylinder);
+        SodaLog sodaLog = sodaLogRepository.save(toSodaLog);
 
-        cylinderRepository.save(cylinder);
+        updateActiveCylinderInfo();
 
-        return sodaLogRepository.save(toSodaLog);
+        return sodaLog;
     }
 
     @Transactional
@@ -71,6 +60,18 @@ public class SodaLogServiceImpl implements SodaLogService {
     }
 
     @Transactional
+    @Override
+    public void exhaustCylinder(Long id) {
+        Optional<Cylinder> cylinderOptional = cylinderRepository.findById(id);
+
+        if (cylinderOptional.isPresent()) {
+            Cylinder cylinder = cylinderOptional.get();
+            cylinder.setExhausted(true);
+            cylinderRepository.save(cylinder);
+        }
+    }
+
+    @Transactional
     private Cylinder findActivateCylinder() {
         Optional<Cylinder> cylinderOptional = cylinderRepository.findFirstByExhaustedFalseOrderByEndDateDesc();
         Cylinder cylinder = null;
@@ -82,5 +83,26 @@ public class SodaLogServiceImpl implements SodaLogService {
             cylinderRepository.save(cylinder);
         }
         return cylinder;
+    }
+
+    @Transactional
+    public Cylinder updateActiveCylinderInfo() {
+        Cylinder cylinder = findActivateCylinder();
+
+        int cylinderTotalPushCount = sodaLogRepository.getTotalPushCount(cylinder.getId());
+        int period = (int) Math.ceil((double) cylinder.getStartDate().until(cylinder.getEndDate(), ChronoUnit.HOURS) / 24d);
+        int totalBuildCount = sodaLogRepository.getTotalBuildCount(cylinder.getId());
+        period = period == 0 ? 1 : period;
+        totalBuildCount = totalBuildCount == 0 ? 1 : totalBuildCount;
+
+        int drinkPerDay = totalBuildCount / period;
+        int pushAvg = cylinderTotalPushCount / totalBuildCount;
+
+        cylinder.setTotalCount(cylinderTotalPushCount);
+        cylinder.setPeriod(period);
+        cylinder.setDrinkPerDay(drinkPerDay);
+        cylinder.setPushAvg(pushAvg);
+
+        return cylinderRepository.save(cylinder);
     }
 }

@@ -98,9 +98,10 @@
 <!--<div>-->
 <!--    <button>detail view</button>-->
 <!--</div>-->
-<!--<div>-->
-<!--    <button>Gas is Exhausted</button>-->
-<!--</div>-->
+<div>
+    <button onclick="exhaustGas()">Gas is Exhausted</button>
+    <input type="hidden" th:value="@{'/exhaust/' + ${cylinderInfo.getId()}}" id="exhaustPath">
+</div>
 <!--<br>-->
 <!--<div>-->
 <!--    <button>Old Cylinder list</button>-->
@@ -187,6 +188,13 @@
     function updatePushCount() {
         document.getElementById("temp_pushCount").innerHTML = pushCount;
         document.getElementById("pushCount").value = pushCount;
+    }
+
+    function exhaustGas() {
+        let answer = confirm("Are you sure?");
+        if (answer) {
+            location.href = document.getElementById("exhaustPath").value
+        }
     }
 </script>
 </body>

@@ -42,4 +42,10 @@ public class AppController {
         sodaLogService.delete(id);
         return "redirect:/";
     }
+
+    @GetMapping(value = "/exhaust/{id}")
+    public String exhaustGas(@PathVariable(value = "id") Long id) {
+        sodaLogService.exhaustCylinder(id);
+        return "redirect:/";
+    }
 }

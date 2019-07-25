@@ -14,4 +14,6 @@ public interface SodaLogService {
     void delete(Long id);
 
     CylinderDTO.ONE findActivateCylinderInfo();
+
+    void exhaustCylinder(Long id);
 }
