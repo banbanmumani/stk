@@ -1,5 +1,7 @@
 package kr.bbmm.stk.helper;
 
+import kr.bbmm.stk.domains.Cylinder;
+import kr.bbmm.stk.domains.CylinderDTO;
 import kr.bbmm.stk.domains.SodaLog;
 import kr.bbmm.stk.domains.SodaLogDTO;
 
@@ -17,5 +19,17 @@ public class Mapper {
             return dto;
         })
         .collect(Collectors.toList());
+    }
+
+    public static CylinderDTO.ONE map(Cylinder cylinder) {
+        CylinderDTO.ONE one = new CylinderDTO.ONE();
+        one.setId(cylinder.getId());
+        one.setTotalCount(cylinder.getTotalCount());
+        one.setPeriod(cylinder.getPeriod());
+        one.setDrinkPerDay(cylinder.getDrinkPerDay());
+        one.setPushAvg(cylinder.getPushAvg());
+        one.setStartDate(cylinder.getStartDate());
+        one.setEndDate(cylinder.getEndDate());
+        return one;
     }
 }

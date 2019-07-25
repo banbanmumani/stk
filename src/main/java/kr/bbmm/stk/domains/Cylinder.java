@@ -3,6 +3,7 @@ package kr.bbmm.stk.domains;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.Clock;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,16 +19,16 @@ public class Cylinder {
     private Long id;
 
     @Column(name = "TOTAL_COUNT")
-    private int totalCount;
+    private int totalCount = 0;
 
     @Column(name = "PERIOD")
-    private int period;
+    private int period = 1;
 
     @Column(name = "DRINK_PER_DAY")
-    private int drinkPerDay;
+    private int drinkPerDay = 0;
 
     @Column(name = "PUSH_AVG")
-    private int pushAvg;
+    private int pushAvg = 0;
 
     @Column(name = "EXHAUSTED")
     private boolean exhausted = false;
@@ -45,4 +46,14 @@ public class Cylinder {
     )
     private List<SodaLog> sodaLogList = new ArrayList<>();
 
+    @PrePersist
+    public void prePersist() {
+        this.startDate = Instant.now(Clock.systemDefaultZone());
+        this.endDate = this.startDate;
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.endDate = Instant.now(Clock.systemDefaultZone());
+    }
 }
