@@ -1,11 +1,15 @@
 package kr.bbmm.stk.controllers;
 
+import kr.bbmm.stk.domains.Cylinder;
 import kr.bbmm.stk.domains.CylinderDTO;
 import kr.bbmm.stk.domains.SodaLogDTO;
 import kr.bbmm.stk.domains.service.SodaLogService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collection;
+import java.util.Collections;
 
 @Controller
 public class AppController {
@@ -57,7 +61,9 @@ public class AppController {
 
     @GetMapping(value = "/cylinder/{id}")
     public String detail(@PathVariable(value = "id") Long id, Model model) {
-        model.addAttribute("cylinderInfo", sodaLogService.findCylinderInfoById(id));
+        Cylinder cylinder = sodaLogService.findCylinderInfoById(id);
+        Collections.reverse(cylinder.getSodaLogList());
+        model.addAttribute("cylinderInfo", cylinder);
         return "detail";
     }
 }
